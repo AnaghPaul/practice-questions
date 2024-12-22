@@ -1,14 +1,58 @@
+const invert = function (f) {
+  return function (...args) {
+    return !f(...args)
+  }
+}
+
+const compareObjects = function (threshold, attribute, comparison) {
+  return function (object) {
+    return comparison(object[attribute], threshold); 
+  }
+}
+
+const isGreaterThan = function (num1, num2) {
+  return num1 > num2;
+}
+
+const isSame = function (value1, value2) {
+  return value1 === value2;
+}
+
 // even numbers [1, 2, 3, 4, 5] => [2, 4]
-const filterEvenNumbers = function (numbers) { };
+const isEven = function (num) {
+  return (num & 1) === 0;
+}
+
+const filterEvenNumbers = function (numbers) { 
+  return numbers.filter(isEven);
+};
+
+console.log(filterEvenNumbers([1, 2, 3, 4, 5]));
 
 // words with more than 5 letters ["apple", "banana", "kiwi", "grape"] => ["banana"]
-const filterLongWords = function (words) { };
+const isStringLongerThan = function (threshold) {
+  return function (string) {
+    return string.length > threshold;
+  }
+}
+
+const filterLongWords = function (words) { 
+  return words.filter(isStringLongerThan(5));
+};
+
+console.log(filterLongWords(["apple", "banana", "kiwi", "grape"]));
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
-const filterAdults = function (people) { };
+const filterAdults = function (people) { 
+  const isPersonOlderThan30 = compareObjects(30, 'age', isGreaterThan);
+
+  return people.filter(isPersonOlderThan30);
+};
+
+console.log(filterAdults([{name: "Alice", age: 25}, {name: "Bob", age: 35}]));
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
-const filterActiveUsers = function (users) { };
+const filterActiveUsers1 = function (users) { };
 
 // numbers greater than 10 [5, 12, 7, 18, 3] => [12, 18]
 const filterNumbersGreaterThanTen = function (numbers) { };
@@ -188,7 +232,7 @@ const filterStudentsByGrade = function (students, minGrade) { };
 const filterBooksByAward = function (books, award) { };
 
 // Filter users where at least one post has more than a specific number of likes [{user: {name: "John", posts: [{title: "Post 1", likes: 150}, {title: "Post 2", likes: 20}]}}] => [{user: {name: "John", posts: [{title: "Post 1", likes: 150}, {title: "Post 2", likes: 20}]}}]
-const filterUsersByPostLikes = function (users, minLikes) { };
+// const filterUsersByPostLikes = function (users, minLikes) { };
 
 // Filter cities where at least one attraction is in a specific category [{city: {name: "Paris", attractions: [{name: "Eiffel Tower", category: "landmark"}, {name: "Louvre", category: "museum"}]}}] => [{city: {name: "Paris", attractions: [{name: "Eiffel Tower", category: "landmark"}, {name: "Louvre", category: "museum"}]}}]
 const filterCitiesByAttractionCategory = function (cities, category) { };
