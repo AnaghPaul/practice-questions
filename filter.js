@@ -4,19 +4,37 @@ const invert = function (f) {
   }
 }
 
-const compareObjects = function (threshold, attribute, comparison) {
-  return function (object) {
-    return comparison(object[attribute], threshold); 
+// const isGreaterThan = function (num1, num2) {
+//   return num1 > num2;
+// }
+
+const isGreaterThan = function (num2) {
+  return function (num1) {
+    return num1 > num2;
   }
 }
 
-const isGreaterThan = function (num1, num2) {
-  return num1 > num2;
+// const isSame = function (value1, value2) {
+//   return value1 === value2;
+// }
+
+const isSame = function (value1) {
+  return function (value2) {
+    return value1 === value2;
+  }
 }
 
-const isSame = function (value1, value2) {
-  return value1 === value2;
+const compareObjects = function (threshold, attribute, comparisonFn) {
+  const comparison = comparisonFn(threshold);
+
+  return function (object) {
+    return comparison(object[attribute]); 
+  }
 }
+
+// console.log = function () {}; // Debug switch. Comment out to debug
+
+// ========================= Common Functions End ==============================
 
 // even numbers [1, 2, 3, 4, 5] => [2, 4]
 const isEven = function (num) {
@@ -27,7 +45,7 @@ const filterEvenNumbers = function (numbers) {
   return numbers.filter(isEven);
 };
 
-console.log(filterEvenNumbers([1, 2, 3, 4, 5]));
+// console.log(filterEvenNumbers([1, 2, 3, 4, 5]));
 
 // words with more than 5 letters ["apple", "banana", "kiwi", "grape"] => ["banana"]
 const isStringLongerThan = function (threshold) {
@@ -40,7 +58,7 @@ const filterLongWords = function (words) {
   return words.filter(isStringLongerThan(5));
 };
 
-console.log(filterLongWords(["apple", "banana", "kiwi", "grape"]));
+// console.log(filterLongWords(["apple", "banana", "kiwi", "grape"]));
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
 const filterAdults = function (people) { 
@@ -49,22 +67,50 @@ const filterAdults = function (people) {
   return people.filter(isPersonOlderThan30);
 };
 
-console.log(filterAdults([{name: "Alice", age: 25}, {name: "Bob", age: 35}]));
+// console.log(filterAdults([{name: "Alice", age: 25}, {name: "Bob", age: 35}]));
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
-const filterActiveUsers1 = function (users) { };
+const filterActiveUsers1 = function (users) {
+  const isUserActive = compareObjects(true, 'active', isSame);
+
+  return users.filter(isUserActive);
+};
+
+// console.log(filterActiveUsers1([{username: "alice", active: true}, {username: "bob", active: false}]));
 
 // numbers greater than 10 [5, 12, 7, 18, 3] => [12, 18]
-const filterNumbersGreaterThanTen = function (numbers) { };
+const filterNumbersGreaterThanTen = function (numbers) { 
+  return numbers.filter(isGreaterThan(10));
+};
+
+// console.log(filterNumbersGreaterThanTen([5, 12, 7, 18, 3]));
 
 // books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
-const filterLongBooks = function (books) { };
+const filterLongBooks = function (books) { 
+  const isBookLongerThan200 = compareObjects(200, 'pages', isGreaterThan);
+
+  return books.filter(isBookLongerThan200);
+};
+
+// console.log([{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}]);
 
 // users with incomplete profiles [{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
-const filterIncompleteProfiles = function (users) { };
+const filterIncompleteProfiles = function (users) { 
+  const isProfileIncomplete = compareObjects(false, 'profileComplete', isSame);
+
+  return users.filter(isProfileIncomplete);
+};
+
+// console.log(filterIncompleteProfiles([{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}]));
 
 // students with grades above 80 [{name: "John", grade: 75}, {name: "Jane", grade: 85}] => [{name: "Jane", grade: 85}]
-const filterHighGrades = function (students) { };
+const filterHighGrades = function (students) { 
+  const isGradeHigherThan80 = compareObjects(80, 'grade', isGreaterThan);
+
+  return students.filter(isGradeHigherThan80);
+};
+
+// console.log(filterHighGrades([{name: "John", grade: 75}, {name: "Jane", grade: 85}, {name: 'Jake', grade: 100}]));
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
 const filterInStockProducts = function (products) { };
