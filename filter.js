@@ -113,10 +113,50 @@ const filterHighGrades = function (students) {
 // console.log(filterHighGrades([{name: "John", grade: 75}, {name: "Jane", grade: 85}, {name: 'Jake', grade: 100}]));
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
-const filterInStockProducts = function (products) { };
+const filterInStockProducts = function (products) { 
+  const isProductInStock = compareObjects(true, 'inStock', isSame);
+
+  return products.filter(isProductInStock);
+};
+
+// console.log(filterInStockProducts([{product: "apple", inStock: true}, {product: "banana", inStock: false}]));
 
 // orders placed in the last 30 days [{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}] => [{orderDate: "2024-12-01"}]
-const filterRecentOrders = function (orders) { };
+const getDay = function (date) {
+  return date.slice(8, 10);
+}
+
+const getMonth = function (date) {
+  return date.slice(5, 7);
+}
+
+const getYear = function (date) {
+  return date.slice(0, 4);
+}
+
+const daysAgo = function (currentDate) {
+  return function(date) {
+    const days = getDay(currentDate) - getDay(date);
+    const months = getMonth(currentDate) - getMonth(date);
+    const years = getYear(currentDate) - getYear(date);
+
+    return days + (months * 30) + (years * 365);
+  }
+}
+
+const filterRecentOrders = function (orders) { // I DO NOT LIKE THIS
+  const currentDate = '2024-12-22';
+
+  for (const order of orders) {
+    order['daysAgo'] = daysAgo(currentDate)(order['orderDate']);
+  }
+
+  const isOrderOld = compareObjects(31, 'daysAgo', isGreaterThan);
+
+  return orders.filter(invert(isOrderOld));
+};
+
+console.log(filterRecentOrders([{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}, {orderDate: '2024-08-03'}, {orderDate: '2024-12-13'}]));
 
 // products with a price lower than the average [{name: "item1", price: 10}, {name: "item2", price: 20}, {name: "item3", price: 5}] => [{name: "item1", price: 10}, {name: "item3", price: 5}]
 const filterBelowAveragePrice = function (products) { };
