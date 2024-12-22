@@ -46,8 +46,6 @@ const extractDate = function (dateInString) {
   };
 };
 
-// console.log = function () {}; // Debug switch. Comment out to debug
-
 // ========================= Common Functions End ==============================
 
 // even numbers [1, 2, 3, 4, 5] => [2, 4]
