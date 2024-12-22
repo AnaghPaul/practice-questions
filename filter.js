@@ -24,12 +24,16 @@ const isSame = function (value1) {
   }
 }
 
-const compareObjects = function (threshold, attribute, comparisonFn) {
+const compareWithObjects = function (threshold, attribute, comparisonFn) {
   const comparison = comparisonFn(threshold);
 
   return function (object) {
     return comparison(object[attribute]); 
   }
+}
+
+const sum = function (op1, op2) {
+  return op1 + op2;
 }
 
 // console.log = function () {}; // Debug switch. Comment out to debug
@@ -62,7 +66,7 @@ const filterLongWords = function (words) {
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
 const filterAdults = function (people) { 
-  const isPersonOlderThan30 = compareObjects(30, 'age', isGreaterThan);
+  const isPersonOlderThan30 = compareWithObjects(30, 'age', isGreaterThan);
 
   return people.filter(isPersonOlderThan30);
 };
@@ -71,7 +75,7 @@ const filterAdults = function (people) {
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
 const filterActiveUsers1 = function (users) {
-  const isUserActive = compareObjects(true, 'active', isSame);
+  const isUserActive = compareWithObjects(true, 'active', isSame);
 
   return users.filter(isUserActive);
 };
@@ -87,7 +91,7 @@ const filterNumbersGreaterThanTen = function (numbers) {
 
 // books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
 const filterLongBooks = function (books) { 
-  const isBookLongerThan200 = compareObjects(200, 'pages', isGreaterThan);
+  const isBookLongerThan200 = compareWithObjects(200, 'pages', isGreaterThan);
 
   return books.filter(isBookLongerThan200);
 };
@@ -96,7 +100,7 @@ const filterLongBooks = function (books) {
 
 // users with incomplete profiles [{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
 const filterIncompleteProfiles = function (users) { 
-  const isProfileIncomplete = compareObjects(false, 'profileComplete', isSame);
+  const isProfileIncomplete = compareWithObjects(false, 'profileComplete', isSame);
 
   return users.filter(isProfileIncomplete);
 };
@@ -105,7 +109,7 @@ const filterIncompleteProfiles = function (users) {
 
 // students with grades above 80 [{name: "John", grade: 75}, {name: "Jane", grade: 85}] => [{name: "Jane", grade: 85}]
 const filterHighGrades = function (students) { 
-  const isGradeHigherThan80 = compareObjects(80, 'grade', isGreaterThan);
+  const isGradeHigherThan80 = compareWithObjects(80, 'grade', isGreaterThan);
 
   return students.filter(isGradeHigherThan80);
 };
@@ -114,7 +118,7 @@ const filterHighGrades = function (students) {
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
 const filterInStockProducts = function (products) { 
-  const isProductInStock = compareObjects(true, 'inStock', isSame);
+  const isProductInStock = compareWithObjects(true, 'inStock', isSame);
 
   return products.filter(isProductInStock);
 };
@@ -151,15 +155,28 @@ const filterRecentOrders = function (orders) { // I DO NOT LIKE THIS
     order['daysAgo'] = daysAgo(currentDate)(order['orderDate']);
   }
 
-  const isOrderOld = compareObjects(31, 'daysAgo', isGreaterThan);
+  const isOrderOld = compareWithObjects(31, 'daysAgo', isGreaterThan);
 
   return orders.filter(invert(isOrderOld));
 };
 
-console.log(filterRecentOrders([{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}, {orderDate: '2024-08-03'}, {orderDate: '2024-12-13'}]));
+// console.log(filterRecentOrders([{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}, {orderDate: '2024-08-03'}, {orderDate: '2024-12-13'}]));
 
 // products with a price lower than the average [{name: "item1", price: 10}, {name: "item2", price: 20}, {name: "item3", price: 5}] => [{name: "item1", price: 10}, {name: "item3", price: 5}]
-const filterBelowAveragePrice = function (products) { };
+
+const getPriceOfProduct = function (product) {
+  return product.price;
+}
+const filterBelowAveragePrice = function (products) { 
+  const prices = products.map(getPriceOfProduct);
+  const averagePrice = prices.reduce(sum, 0) / prices.length;
+
+  const isBelowAveragePrice = invert(compareWithObjects(averagePrice, 'price', isGreaterThan));
+
+  return products.filter(isBelowAveragePrice);
+};
+
+console.log(filterBelowAveragePrice([{name: "item1", price: 10}, {name: "item2", price: 20}, {name: "item3", price: 5}]));
 
 // active users who posted in the last 7 days [{username: "alice", lastPostDate: "2024-12-01", active: true}, {username: "bob", lastPostDate: "2024-11-20", active: true}] => [{username: "alice", lastPostDate: "2024-12-01", active: true}]
 const filterRecentActiveUsers = function (users) { };
