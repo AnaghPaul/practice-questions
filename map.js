@@ -1,3 +1,39 @@
+const invert = function (f) {
+  return function (...args) {
+    return !f(...args)
+  }
+};
+
+const incrementIfTrue = function (predicate, step) {
+  return function(count, element) {
+    if (predicate(element)) {
+      return count + step;
+    }
+
+    return count;
+  }
+};
+
+const isVowel = function (char) {
+  const VOWELS = 'aeiouAEIOU';
+
+  return VOWELS.includes(char);
+};
+
+const sum = function (op1, op2) {
+  return op1 + op2;
+}
+
+const cumulativeSum = function(operand1) {
+  return function (operand2) {
+    operand1 += operand2;
+
+    return operand1;
+  }
+}
+
+// ========================= Common Functions End ==============================
+
 // squares of [1, 2, 3] => [1, 4, 9]
 const squaresOf = function (numbers) { 
   return numbers.map((num) => num * num);
@@ -75,26 +111,75 @@ const domainNamesOf = function (emails) {
 // console.log(domainNamesOf(["user1@gmail.com", "admin@yahoo.com"]));
 
 // split words in ["hello world", "goodbye moon"] => [["hello", "world"], ["goodbye", "moon"]]
-const splitWordsOf = function (strings) { };
+const splitWordsOf = function (strings) { 
+  return strings.map((string) => string.split(' '));
+};
+
+// console.log(splitWordsOf(['hello world', 'hi darkness']));
 
 // join arrays of [["a", "b"], ["c", "d"]] => ["ab", "cd"]
-const joinedArraysOf = function (arrayOfArrays) { };
+const joinedArraysOf = function (arrayOfArrays) { 
+  return arrayOfArrays.map((array) => array.join(''));
+};
+
+// console.log(joinedArraysOf([["a", "b"], ["c", "d"]]));
 
 // repeat strings in ["hi", "bye"] => ["hihi", "byebye"]
-const repeatedStringsOf = function (strings) { };
+const repeatedStringsOf = function (strings) { 
+  return strings.map((string) => string.repeat(2));
+};
+
+// console.log(repeatedStringsOf(["hi", "bye"]));
 
 // count vowels in ["apple", "banana", "grape"] => [2, 3, 2]
-const countVowelsOf = function (strings) { };
+
+const vowelCount = function (string) {
+  const incrementIfVowel = incrementIfTrue(isVowel, 1)
+  return [...string].reduce(incrementIfVowel, 0);
+};
+
+const countVowelsOf = function (strings) { 
+  return strings.map(vowelCount);
+};
+
+// console.log(countVowelsOf(["apple", "banana", "grape"]));
 
 // reverse arrays of [[1, 2, 3], [4, 5, 6]] => [[3, 2, 1], [6, 5, 4]]
-const reversedArraysOf = function (arrays) { };
+const reversedArraysOf = function (arrays) { 
+  return arrays.map((array) => array.reverse());
+};
+
+// console.log(reversedArraysOf([[1, 2, 3], [4, 5, 6]]));
 
 // remove vowels from ["apple", "banana", "grape"] => ["ppl", "bnn", "grp"]
-const withoutVowelsOf = function (strings) { };
+const removeVowels = function (string) {
+  const isNotVowel = invert(isVowel);
+
+  return [...string].filter(isNotVowel).join('');
+};
+
+const withoutVowelsOf = function (strings) { 
+  return strings.map(removeVowels);
+};
+
+// console.log(withoutVowelsOf(["apple", "banana", "grape"]));
 
 // cumulative sums of [[1, 2, 3], [4, 5, 6]] => [[1, 3, 6], [4, 9, 15]]
 // Example: cumulative sum of [1, 2, 3] is [1, 1+2, 1+2+3]
-const cumulativeSumsOf = function (arrays) { };
+const addTotals = function(array, number) { //you can do better
+  array.push(array.at(-1) + number);
+  return array;
+}
+
+const  runningTotal = function ([firstElement, ...numbers]) {
+  return numbers.reduce(addTotals, [firstElement]);
+}
+
+const cumulativeSumsOf = function (arrays) { 
+  return arrays.map(runningTotal);
+};
+
+console.log(cumulativeSumsOf([[1, 2, 3], [4, 5, 6]]));
 
 // reverse words in ["hello world", "goodbye moon"] => ["olleh dlrow", "eybdoog noom"]
 const reversedWordsOf = function (strings) { };
