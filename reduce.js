@@ -1,29 +1,93 @@
+const invert = function (f) {
+  return function (...args) {
+    return !f(...args)
+  }
+};
+
+const incrementIfTrue = function (predicate, step) {
+  return function(count, element) {
+    if (predicate(element)) {
+      return count + step;
+    }
+
+    return count;
+  }
+};
+
+const add = function (op1, op2) {
+  return op1 + op2;
+}
+
+const multiply = function (op1, op2) {
+  return op1 * op2;
+}
+
+// =========================== Common Functions End ============================
+
 // sumOf([1, 2, 3, 4]) => 10
-const sumOf = function (numbers) { }
+const sumOf = function (numbers) { 
+  return numbers.reduce(add, 0);
+}
+
+// console.log(sumOf([1, 2, 3, 4]));
 
 // productOf([1, 2, 3, 4]) => 24
-const productOf = function (numbers) { }
+const productOf = function (numbers) { 
+  return numbers.reduce(multiply, 1);
+}
+
+// console.log(productOf([1, 2, 3, 4]));
 
 // averageOf([1, 2, 3, 4, 5]) => 3
-const averageOf = function (numbers) { }
+const averageOf = function (numbers) { 
+  return numbers.reduce(add, 0) / numbers.length;
+}
+
+// console.log(averageOf([1, 2, 3, 4]));
 
 // minOf([3, 1, 4, 1, 5, 9, 2]) => 1
-const minOf = function (numbers) { }
+const minOf = function (numbers) { 
+  return numbers.reduce((num1, num2) => num1 < num2 ? num1 : num2, Infinity);
+}
+
+// console.log(minOf([3, 27, 4, 10, 5, 9, 2]));
 
 // maxOf([3, 1, 4, 1, 5, 9, 2]) => 9
-const maxOf = function (numbers) { }
+const maxOf = function (numbers) { 
+  return numbers.reduce((num1, num2) => num1 > num2 ? num1 : num2, -Infinity);
+}
+
+// console.log(maxOf([3, 27, 4, 10, s5, 9, 2]));
 
 // sumPositiveNumbers([1, -2, 3, -4]) => 4
-const sumPositiveNumbers = function (numbers) { }
+const sumPositiveNumbers = function (numbers) { 
+  const positiveNumbers = numbers.filter((number) => number > 0);
+
+  return positiveNumbers.reduce(add, 0);
+}
+
+// console.log(sumPositiveNumbers([1, -2, 3, -4]));
 
 // sumOfSquares([1, 2, 3, 4]) => 30
-const sumOfSquares = function (numbers) { }
+const sumOfSquares = function (numbers) { 
+  const squares = numbers.map((number) => number * number);
+  return squares.reduce(add, 0);
+}
+
+// console.log(sumOfSquares([1, 2, 3, 4]));
 
 // sumOfOddNumbers([1, 2, 3, 4, 5]) => 9
-const sumOfOddNumbers = function (numbers) { }
+const sumOfOddNumbers = function (numbers) { 
+  const oddNumbers = numbers.filter((number) => (number & 1) === 1);
+  return oddNumbers.reduce(add, 0);
+}
+
+// console.log(sumOfOddNumbers([1, 2, 3, 4, 5]));
 
 // countNegativeNumbers([1, -2, 3, -4]) => 2
-const countNegativeNumbers = function (numbers) { }
+const countNegativeNumbers = function (numbers) { 
+
+}
 
 // findSumOfEvenSquares([1, 2, 3, 4]) => 20
 const findSumOfEvenSquares = function (numbers) { }
