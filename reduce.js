@@ -16,10 +16,32 @@ const incrementIfTrue = function (predicate, step) {
 
 const add = function (op1, op2) {
   return op1 + op2;
-}
+};
 
 const multiply = function (op1, op2) {
   return op1 * op2;
+};
+
+const concat = function (element1, element2) {
+  return element1.concat(element2);
+};
+
+const isEven = function (number) {
+  return (number & 1) === 0;
+};
+
+const isNegative = function (number) {
+  return number < 0;
+};
+
+const isLonger = function (element1, element2) {
+  return element1.length > element2.length;
+};
+
+const getElementBasedOn = function (predicate) {
+  return function (element1, element2) {
+    return predicate(element1, element2) ? element1 : element2;
+  }
 }
 
 // =========================== Common Functions End ============================
@@ -78,7 +100,9 @@ const sumOfSquares = function (numbers) {
 
 // sumOfOddNumbers([1, 2, 3, 4, 5]) => 9
 const sumOfOddNumbers = function (numbers) { 
-  const oddNumbers = numbers.filter((number) => (number & 1) === 1);
+  const isOdd = invert(isEven);
+  const oddNumbers = numbers.filter(isOdd);
+
   return oddNumbers.reduce(add, 0);
 }
 
@@ -86,32 +110,79 @@ const sumOfOddNumbers = function (numbers) {
 
 // countNegativeNumbers([1, -2, 3, -4]) => 2
 const countNegativeNumbers = function (numbers) { 
+  const incrementIfNegative = incrementIfTrue(isNegative, 1);
 
+  return numbers.reduce(incrementIfNegative, 0);
 }
 
+// console.log(countNegativeNumbers([1, -2, 3, -4]));
+
 // findSumOfEvenSquares([1, 2, 3, 4]) => 20
-const findSumOfEvenSquares = function (numbers) { }
+const findSumOfEvenSquares = function (numbers) { 
+  const evens = numbers.filter(isEven);
+  const evenSquares = evens.map((number) => number * number);
+
+  return evenSquares.reduce(add, 0);
+}
+
+// console.log(findSumOfEvenSquares([1, 2, 3, 4]));
 
 // concatenateWords(["hello", "world"]) => "helloworld"
-const concatenateWords = function (words) { }
+const concatenateWords = function (words) { 
+  return words.reduce(concat, '');
+}
+
+// console.log(concatenateWords(["hello", "world"]));
 
 // longestWord(["apple", "banana", "cherry", "kiwi"]) => "banana"
-const longestWord = function (words) { }
+// const longer = function (element1, element2) {
+//   return element2.length > element1.length ? element2 : element1;
+// };
+
+const longestWord = function (words) { 
+  const getLonger = getElementBasedOn(isLonger);
+
+  return words.reduce(getLonger);
+}
+
+// console.log(longestWord(["apple", "banana", "cherry", "kiwi"]));
 
 // shortestWord(["apple", "banana", "cherry", "kiwi"]) => "kiwi"
-const shortestWord = function (words) { }
+const shortestWord = function (words) { 
+  const getShorter = getElementBasedOn(invert(isLonger));
+
+  return words.reduce(getShorter);
+}
+
+// console.log(shortestWord(["apple", "banana", "cherry", "kiwi"]));
 
 // joinWithComma(["apple", "banana", "cherry"]) => "apple,banana,cherry"
-const joinWithComma = function (words) { }
+const joinWithComma = function (words) { 
+  return words.reduce((element1, element2) => concat(element1, ',' + element2));
+}
+
+// console.log(joinWithComma(["apple", "banana", "cherry"]));
 
 // reverseWords(["hello", "world"]) => "world hello"
-const reverseWords = function (words) { }
+const reverseWords = function (words) { 
+  return words.reduce((element1, element2) => concat(element2, ' ' + element1));
+}
+
+// console.log(reverseWords(["hello", "world"]));
 
 // joinWordsWithSpace(["apple", "banana", "cherry"]) => "apple banana cherry"
-const joinWordsWithSpace = function (words) { }
+const joinWordsWithSpace = function (words) { 
+  return words.reduce((element1, element2) => concat(element1, ' ' + element2));
+}
+
+// console.log(joinWordsWithSpace(["apple", "banana", "cherry"]));
 
 // concatenateNames(["John", "Jane", "Doe"]) => "JohnJaneDoe"
-const concatenateNames = function (names) { }
+const concatenateNames = function (names) { 
+  return names.reduce(concat, '');
+}
+
+// console.log(concatenateNames(["John", "Jane", "Doe"]));
 
 // countVowelsInWords(["hello", "world"]) => "eoo"
 const countVowelsInWords = function (words) { }
