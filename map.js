@@ -5,7 +5,7 @@ const invert = function (f) {
 };
 
 const incrementIfTrue = function (predicate, step) {
-  return function(count, element) {
+  return function (count, element) {
     if (predicate(element)) {
       return count + step;
     }
@@ -24,7 +24,7 @@ const sum = function (op1, op2) {
   return op1 + op2;
 }
 
-const cumulativeSum = function(operand1) {
+const cumulativeSum = function (operand1) {
   return function (operand2) {
     operand1 += operand2;
 
@@ -35,28 +35,28 @@ const cumulativeSum = function(operand1) {
 // ========================= Common Functions End ==============================
 
 // squares of [1, 2, 3] => [1, 4, 9]
-const squaresOf = function (numbers) { 
+const squaresOf = function (numbers) {
   return numbers.map((num) => num * num);
 };
 
 // console.log(squaresOf([1, 2, 3]));
 
 // lengths of ["apple", "banana", "kiwi"] => [5, 6, 4]
-const lengthsOf = function (strings) { 
+const lengthsOf = function (strings) {
   return strings.map((string) => string.length);
 };
 
 // console.log(lengthsOf(["apple", "banana", "kiwi"]));
 
 // uppercase of ["hello", "world"] => ["HELLO", "WORLD"]
-const uppercaseOf = function (strings) { 
+const uppercaseOf = function (strings) {
   return strings.map((string) => string.toUpperCase());
 };
 
 // console.log(uppercaseOf(['hello', 'world']));
 
 // first characters of ["apple", "banana", "kiwi"] => ["a", "b", "k"]
-const firstCharactersOf = function (strings) { 
+const firstCharactersOf = function (strings) {
   return strings.map((string) => string[0]);
 };
 
@@ -64,14 +64,14 @@ const firstCharactersOf = function (strings) {
 
 // truth values of [0, 1, 2, 3] => [false, true, true, true]
 // Assume non-zero numbers are true, and zero is false
-const truthValuesOf = function (numbers) { 
+const truthValuesOf = function (numbers) {
   return numbers.map((number) => number !== 0);
 };
 
 // console.log(truthValuesOf([0, 1, 2, 3]));
 
 // reverse strings of ["hello", "world"] => ["olleh", "dlrow"]
-const reversedStringsOf = function (strings) { 
+const reversedStringsOf = function (strings) {
   return strings.map((string) => [...string].reverse().join(''));
 };
 
@@ -82,14 +82,14 @@ const doubleLetterString = function (string) {
   return [...string].map((char) => char.repeat(2)).join('')
 };
 
-const doubleLettersOf = function (strings) { 
+const doubleLettersOf = function (strings) {
   return strings.map(doubleLetterString);
 };
 
 // console.log(doubleLettersOf(["cat", "dog", "bat"]));
 
 // boolean negation of [true, false, true] => [false, true, false]
-const negatedBooleansOf = function (booleans) { 
+const negatedBooleansOf = function (booleans) {
   return booleans.map((boolean) => !boolean);
 };
 
@@ -97,35 +97,35 @@ const negatedBooleansOf = function (booleans) {
 
 // character codes of ["a", "b", "c"] => [97, 98, 99]
 // Use the `charCodeAt` method on each string
-const charCodesOf = function (strings) { 
+const charCodesOf = function (strings) {
   return strings.map((char) => char.charCodeAt(0));
 };
 
 // console.log(charCodesOf(["a", "b", "c", "A", "B", "C"]));
 
 // extract domain names from ["user1@gmail.com", "admin@yahoo.com"] => ["gmail.com", "yahoo.com"]
-const domainNamesOf = function (emails) { 
+const domainNamesOf = function (emails) {
   return emails.map((emailAddr) => emailAddr.split('@').at(-1));
 };
 
 // console.log(domainNamesOf(["user1@gmail.com", "admin@yahoo.com"]));
 
 // split words in ["hello world", "goodbye moon"] => [["hello", "world"], ["goodbye", "moon"]]
-const splitWordsOf = function (strings) { 
+const splitWordsOf = function (strings) {
   return strings.map((string) => string.split(' '));
 };
 
 // console.log(splitWordsOf(['hello world', 'hi darkness']));
 
 // join arrays of [["a", "b"], ["c", "d"]] => ["ab", "cd"]
-const joinedArraysOf = function (arrayOfArrays) { 
+const joinedArraysOf = function (arrayOfArrays) {
   return arrayOfArrays.map((array) => array.join(''));
 };
 
 // console.log(joinedArraysOf([["a", "b"], ["c", "d"]]));
 
 // repeat strings in ["hi", "bye"] => ["hihi", "byebye"]
-const repeatedStringsOf = function (strings) { 
+const repeatedStringsOf = function (strings) {
   return strings.map((string) => string.repeat(2));
 };
 
@@ -138,14 +138,14 @@ const vowelCount = function (string) {
   return [...string].reduce(incrementIfVowel, 0);
 };
 
-const countVowelsOf = function (strings) { 
+const countVowelsOf = function (strings) {
   return strings.map(vowelCount);
 };
 
 // console.log(countVowelsOf(["apple", "banana", "grape"]));
 
 // reverse arrays of [[1, 2, 3], [4, 5, 6]] => [[3, 2, 1], [6, 5, 4]]
-const reversedArraysOf = function (arrays) { 
+const reversedArraysOf = function (arrays) {
   return arrays.map((array) => array.reverse());
 };
 
@@ -158,7 +158,7 @@ const removeVowels = function (string) {
   return [...string].filter(isNotVowel).join('');
 };
 
-const withoutVowelsOf = function (strings) { 
+const withoutVowelsOf = function (strings) {
   return strings.map(removeVowels);
 };
 
@@ -166,23 +166,23 @@ const withoutVowelsOf = function (strings) {
 
 // cumulative sums of [[1, 2, 3], [4, 5, 6]] => [[1, 3, 6], [4, 9, 15]]
 // Example: cumulative sum of [1, 2, 3] is [1, 1+2, 1+2+3]
-const addTotals = function(array, number) { //you can do better
+const addTotals = function (array, number) { //you can do better
   array.push(array.at(-1) + number);
   return array;
 }
 
-const  runningTotal = function ([firstElement, ...numbers]) {
+const runningTotal = function ([firstElement, ...numbers]) {
   return numbers.reduce(addTotals, [firstElement]);
 }
 
-const cumulativeSumsOf = function (arrays) { 
+const cumulativeSumsOf = function (arrays) {
   return arrays.map(runningTotal);
 };
 
-console.log(cumulativeSumsOf([[1, 2, 3], [4, 5, 6]]));
+// console.log(cumulativeSumsOf([[1, 2, 3], [4, 5, 6]]));
 
 // reverse words in ["hello world", "goodbye moon"] => ["olleh dlrow", "eybdoog noom"]
-const reversedWordsOf = function (strings) { 
+const reversedWordsOf = function (strings) {
   return strings.map((string) => [...string].reverse().join(''));
 };
 
@@ -261,7 +261,13 @@ const splitFullNames = function (objects) { };
 const normalizeScores = function (objects) { };
 
 // calculate percentage contribution of each number in [10, 20, 30] (relative to the total sum) => [16.67, 33.33, 50]
-const percentageContributions = function (numbers) { };
+const percentageContributions = function (numbers) {
+  const totalContribution = numbers.reduce(sum, 0);
+
+  return numbers.map((countribution) => (countribution / totalContribution) * 100);
+};
+
+// console.log(percentageContributions([10, 20, 30]));
 
 // subtract the smallest number from each number in [3, 8, 1] => [2, 7, 0]
 const subtractMin = function (numbers) { };
