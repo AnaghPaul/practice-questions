@@ -391,8 +391,6 @@ const updateObjectAttribute = function (attribute, updationFn) {
 
 const filterDiscountedItems = function (items, discount, maxPrice) {
   const discountedItems = items.map((obj) => obj.price * (discount / 100));
-
-  console.log(discountedItems);
 };
 
 // console.log(
@@ -543,7 +541,26 @@ const filterByCategoryAndPrice = function (products, category, maxPrice) {
 // );
 
 // Filter users based on their activity level and registration date [{profile: {username: "Alice", status: "active"}, registration: {date: "2020-05-01"}}] => [{profile: {username: "Alice", status: "active"}, registration: {date: "2020-05-01"}}]
-const filterActiveUsersByDate = function (users, status, dateThreshold) {};
+const filterActiveUsersByDate = function (users, status, dateThreshold) {
+  const usersAfterDate = users.filter(
+    (user) => user.registration.date > dateThreshold
+  );
+
+  return usersAfterDate.filter((user) => user.profile.status === status);
+};
+
+// console.log(
+//   filterActiveUsersByDate(
+//     [
+//       {
+//         profile: { username: "Alice", status: "active" },
+//         registration: { date: "2020-05-01" },
+//       },
+//     ],
+//     "active",
+//     "2020-01-01"
+//   )
+// );
 
 // Filter orders where the customer's balance is above a certain threshold and the order total is under a certain amount [{customer: {name: "Alice", balance: 1000}, order: {total: 200}}] => [{customer: {name: "Alice", balance: 1000}, order: {total: 200}}]
 const filterOrdersByBalanceAndTotal = function (
