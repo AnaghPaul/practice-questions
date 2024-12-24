@@ -246,14 +246,18 @@ const concatenateArrays = function (arrays) {
 const flattenArray = function (arrays) {};
 
 // uniqueNumbers([1, 2, 2, 3, 4, 4, 5]) => [1, 2, 3, 4, 5]
-const addUniqueElements = function (list, element) {
+const pushUniqueElements = function (list, element) {
   if (!list.includes(element)) {
     list.push(element);
   }
   return list;
 };
 
-const uniqueNumbers = function (numbers) {};
+const uniqueNumbers = function (numbers) {
+  return numbers.reduce(pushUniqueElements, []);
+};
+
+console.log(uniqueNumbers([1, 2, 2, 3, 4, 4, 5]));
 
 // groupByLength(["apple", "banana", "cherry", "date"]) => { 5: ["apple", "cherry"], 6: ["banana"], 4: ["date"] }
 const groupByLength = function (strings) {};
